@@ -97,7 +97,7 @@ module.exports['Basic'] = {
       test.done();
     });
   },
-
+ 
   'Should POST': function(test) {
     rest.post(host).on('complete', function(data) {
       test.re(data, /^POST/, 'should be POST');
@@ -114,6 +114,62 @@ module.exports['Basic'] = {
 
   'Should HEAD': function(test) {
     rest.head(host).on('complete', function(data, response) {
+      test.equal(response.headers['request-method'], 'head', 'should be HEAD');
+      test.done();
+    });
+  },
+
+  'Should GET with callback': function (test) {
+    rest.get(host, function(error, data) {
+      test.re(data, /^GET/, 'should be GET');
+      test.done();
+    });
+  },
+
+  'Should GET with callback and options': function(test) {
+    rest.get(host, {}, function(error, data) {
+      test.re(data, /^GET/, 'should be GET');
+      test.done();
+    });
+  },
+
+  'Should GET with callback AS an option': function(test) {
+    rest.get(host, { callback: function(error, data) {
+      test.re(data, /^GET/, 'should be GET');
+      test.done();
+    }});
+  },
+
+  'Should PATCH with callback': function(test) {
+    rest.patch(host, function(error, data) {
+      test.re(data, /^PATCH/, 'should be PATCH');
+      test.done();
+    });
+  },
+
+  'Should PUT with callback': function(test) {
+    rest.put(host, function(error, data) {
+      test.re(data, /^PUT/, 'should be PUT');
+      test.done();
+    });
+  },
+
+  'Should POST with callback': function(test) {
+    rest.post(host, function(error, data) {
+      test.re(data, /^POST/, 'should be POST');
+      test.done();
+    });
+  },
+
+  'Should DELETE with callback': function(test) {
+    rest.del(host, function(error, data) {
+      test.re(data, /^DELETE/, 'should be DELETE');
+      test.done();
+    });
+  },
+
+  'Should HEAD with callback': function(test) {
+    rest.head(host, function(error, data, response) {
       test.equal(response.headers['request-method'], 'head', 'should be HEAD');
       test.done();
     });
@@ -174,6 +230,13 @@ module.exports['Basic'] = {
 
   'Should send basic auth': function(test) {
     rest.post(host, { username: 'danwrong', password: 'flange' }).on('complete', function(data) {
+      test.re(data, /authorization\: Basic ZGFud3Jvbmc6Zmxhbmdl/, 'should have "authorization "header');
+      test.done();
+    });
+  },
+
+  'Should send basic auth with callback': function(test) {
+    rest.post(host, { username: 'danwrong', password: 'flange' }, function(error, data) {
       test.re(data, /authorization\: Basic ZGFud3Jvbmc6Zmxhbmdl/, 'should have "authorization "header');
       test.done();
     });
@@ -481,6 +544,25 @@ module.exports['Deserialization'] = {
     rest.postJson(host + '/push-json', obj).on('complete', function(data) {
       test.equal(obj.secret, data.secret, 'returned: ' + p(data));
       test.done();
+    });
+  },
+
+  'Should post and parse JSON via shortcut method with callback': function(test) {
+    var obj = { secret : 'very secret string' };
+    rest.postJson(host + '/push-json', obj, function(error, data) {
+      test.equal(obj.secret, data.secret, 'returned: ' + p(data));
+      test.done();
+    });
+  },
+
+  'Should post and parse JSON via shortcut method with callback option': function(test) {
+    var obj = { secret : 'very secret string' };
+
+    rest.postJson(host + '/push-json', obj, {
+      'callback' : function(error, data) {
+        test.equal(obj.secret, data.secret, 'returned: ' + p(data));
+        test.done();
+      }
     });
   },
 
