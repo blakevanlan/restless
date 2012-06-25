@@ -32,7 +32,7 @@ Features
 API
 ---
 
-### request(url, options)
+### request(url, [options])
 
 Basic method to make a request of any type. The function returns a RestRequest object that emits events:
 
@@ -52,35 +52,37 @@ Basic method to make a request of any type. The function returns a RestRequest o
 * `retry([timeout])` Re-sends request after `timeout` ms. Pending request is aborted.
 * `aborted` Determines if request was aborted.
 
-
-### get(url, options)
+### get(url, [options], [callback])
 
 Create a GET request.
 
-### post(url, options)
+### post(url, [options], [callback])
 
 Create a POST request.
 
-### put(url, options)
+### put(url, [options], [callback])
 
 Create a PUT request.
 
-### del(url, options)
+### del(url, [options], [callback])
 
 Create a DELETE request.
 
-### head(url, options)
+### head(url, [options], [callback])
 
 Create a HEAD request.
 
-### json(url, data, options)
+### json(url, data, [options], [method], [callback])
 
-Send json `data` via GET method.
+Send json `data` via specified method, defaults to GET.
 
-### postJson(url, data, options)
+### postJson(url, data, [options], [callback])
 
 Send json `data` via POST method.
 
+### Callback
+As an alternative to the emitter pattern, a callback function can be supplied.
+The parameters are as follows: `function(error, body, response)`. If no error occurred then `error` will be null.
 
 ### Parsers
 
@@ -113,6 +115,7 @@ Also you can use `json()` and `postJson()` methods.
 * `multipart` If set the data passed will be formated as `multipart/form-encoded`. See multipart example below. Defaults to `false`.
 * `client` A http.Client instance if you want to reuse or implement some kind of connection pooling. Defaults to empty.
 * `followRedirects` If set will recursively follow redirects. Defaults to `true`.
+* `callback` A callback function can be supplied in the options. This is an alternative to passing the callback function as the last parameter to any of the above methods. Note: This is the only way to use a callback function if you are using the `request` function direct.
 
 
 Example usage
@@ -135,6 +138,11 @@ rest.get('http://twaud.io/api/v1/users/danwrong.json').on('complete', function(d
   sys.puts(data[0].message); // auto convert to object
 });
 
+// same as above but with callback
+rest.get('http://twaud.io/api/v1/users/danwrong.json', function(error, data) {
+  sys.puts(data[0].message); // auto convert to object
+});
+
 rest.get('http://twaud.io/api/v1/users/danwrong.xml').on('complete', function(data) {
   sys.puts(data[0].sounds[0].sound[0].message); // auto convert to object
 });
@@ -144,6 +152,16 @@ rest.post('http://user:pass@service.com/action', {
 }).on('complete', function(data, response) {
   if (response.statusCode == 201) {
     // you can get at the raw response like this...
+  }
+});
+
+// same as above but with callback
+rest.post('http://user:pass@service.com/action', {
+  data: { id: 334 },
+  function(data, response) {
+    if (response.statusCode == 201) {
+      // you can get at the raw response like this...
+    }
   }
 });
 
