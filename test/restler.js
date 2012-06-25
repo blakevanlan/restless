@@ -574,6 +574,22 @@ module.exports['Deserialization'] = {
     })
   },
 
+  'Should post and parse JSON, only specifying callback': function(test) {
+    var obj = { secret : 'very secret string' };
+    rest.json(host + '/push-json', obj, function(error, data) {
+      test.equal(obj.secret, data.secret, 'returned: ' + p(data));
+      test.done();
+    });
+  },
+
+  'Should post and parse JSON, only specifying method': function(test) {
+    var obj = { secret : 'very secret string' };
+    rest.json(host + '/push-json', obj, 'POST').on('complete', function(data) {
+      test.equal(obj.secret, data.secret, 'returned: ' + p(data));
+      test.done();
+    });
+  },
+
   'Should post and parse JSON via shortcut method': function(test) {
     var obj = { secret : 'very secret string' };
     rest.postJson(host + '/push-json', obj).on('complete', function(data) {
