@@ -275,6 +275,8 @@ module.exports['Basic'] = {
     });
   },
 
+  
+
   'Should fire error and complete events on connection abort': function(test) {
     test.expect(2);
     rest.get(host, { headers: { 'x-connection-abort': 'true' }}).on('error', function() {
@@ -285,9 +287,35 @@ module.exports['Basic'] = {
     });
   },
 
+  'Should return error to callback, 4XX and 404 events': function(test) {
+    rest.get(host, { headers: { 'x-status-code': 404 }}, function(error, data) {
+      test.ok(error, 'should not be null');
+      test.done();
+    });
+  },
+
+  'Should return error to callback on connection abort': function(test) {
+    rest.get(host, { headers: { 'x-connection-abort': 'true' }}, function(error, data) {
+      test.ok(error, 'should not be null');
+      test.done();
+    });
+  },
+
   'Should correctly retry': function(test) {
     var counter = 0;
     rest.get(host, { headers: { 'x-connection-abort': 'true' }}).on('complete', function() {
+      if (++counter < 3) {
+        this.retry(10);
+      } else {
+        test.ok(true);
+        test.done();
+      }
+    });
+  },
+
+  'Should correctly retry with callback': function(test) {
+    var counter = 0;
+    rest.get(host, { headers: { 'x-connection-abort': 'true' }}, function() {
       if (++counter < 3) {
         this.retry(10);
       } else {
@@ -443,6 +471,13 @@ module.exports['Deserialization'] = {
 
   'Should parse JSON': function(test) {
     rest.get(host + '/json').on('complete', function(data) {
+      test.equal(data.ok, true, 'returned: ' + p(data));
+      test.done();
+    });
+  },
+
+  'Should parse JSON with callback': function(test) {
+    rest.get(host + '/json', function(error, data) {
       test.equal(data.ok, true, 'returned: ' + p(data));
       test.done();
     });
@@ -630,6 +665,15 @@ module.exports['Deserialization'] = {
       test.ok(false, 'should not have got here');
     }).on('fail', function() {
       test.ok(false, 'should not have got here');
+    });
+  },
+
+  'Should correctly handle malformed JSON with callback': function(test) {
+    rest.get(host + '/mal-json', function(error, body, response) {
+      test.ok(error instanceof Error, 'should be instanceof Error, got: ' + p(error));
+      test.re(error.message, /^Failed to parse/, 'should contain "Failed to parse", got: ' + p(error.message));
+      test.equal(response.raw, 'Чебурашка', 'should be "Чебурашка", got: ' + p(response.raw));
+      test.done();
     });
   },
 
