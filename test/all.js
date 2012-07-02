@@ -1,6 +1,6 @@
 
-require('./restler'); // debug
+require('./restless'); // debug
 var nodeunit = require('nodeunit');
 var reporter = nodeunit.reporters['default'];
 process.chdir(__dirname);
-reporter.run(['restler.js']);
+reporter.run(['restless.js']);

@@ -1,5 +1,5 @@
 
-var rest   = require('../lib/restler');
+var rest   = require('../lib/restless');
 var http   = require('http');
 var sys    = require('util');
 var path   = require('path');

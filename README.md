@@ -1,16 +1,16 @@
-Restler
+Restless
 =======
 
+Based on [Restler](https://github.com/danwrong/restler) by [@danwrong](https://github.com/danwrong/)
 (C) Dan Webb (dan@danwebb.net/@danwrong) 2011, Licensed under the MIT-LICENSE
 
 An HTTP client library for node.js (0.6.x and up).  Hides most of the complexity of creating and using http.Client.
 
-**Release 2.x.x** is dedicated to modifying how errors are handled and emitted. Currently errors are being fired as an on 'error' event but as [@ctavan](https://github.com/ctavan) pointed out on [issue #36](https://github.com/danwrong/restler/pull/36) a better approach (and more commonly in vogue now) would be to pass the error obj to the callback.
+The difference between Restless and Restler is that Restless uses callbacks instead of the emitter pattern.
 
-Ths change will inevitably affect those using older < 0.2.x versions of restler. Those not ready to upgrade yet are encouraged to stay on the 0.2.x version.
-
-See [Version History](https://github.com/danwrong/restler/wiki/Version-History) for changes
-
+**Note**
+Currently Restless can be used with either pattern however soon the emitter will be removed. It is recommended that anyone who wishes to utilize the emitter pattern should use [Restler](https://github.com/danwrong/restler) instead.
+emitter patt
 
 Features
 --------
@@ -106,7 +106,7 @@ All of these attempt to turn the response into a JavaScript object. In order to 
 Note that if you want your request body to be JSON with the `Content-Type: application/json`, you need to
 `JSON.stringify` your object first. Otherwise, it will be sent as `application/x-www-form-urlencoded` and encoded accordingly.
 Also you can use `json()` and `postJson()` methods.
-* `parser` A function that will be called on the returned data. Use any of predefined `restler.parsers`. See parsers section below. Defaults to `restler.parsers.auto`.
+* `parser` A function that will be called on the returned data. Use any of predefined `restless.parsers`. See parsers section below. Defaults to `restless.parsers.auto`.
 * `encoding` The encoding of the request body. Defaults to `"utf8"`.
 * `decoding` The encoding of the response body. For a list of supported values see [Buffers](http://nodejs.org/docs/latest/api/buffers.html#buffers). Additionally accepts `"buffer"` - returns response as `Buffer`. Defaults to `"utf8"`.
 * `headers` A hash of HTTP headers to be sent. Defaults to `{ 'Accept': '*/*', 'User-Agent': 'Restler for node.js' }`.
@@ -123,7 +123,7 @@ Example usage
 
 ```javascript
 var sys = require('util'),
-    rest = require('./restler');
+    rest = require('./restless');
 
 rest.get('http://google.com').on('complete', function(result) {
   if (result instanceof Error) {
@@ -171,7 +171,7 @@ rest.post('https://twaud.io/api/v1/upload.json', {
   username: 'danwrong',
   password: 'wouldntyouliketoknow',
   data: {
-    'sound[message]': 'hello from restler!',
+    'sound[message]': 'hello from restless!',
     'sound[file]': rest.file('doug-e-fresh_the-show.mp3', null, 321567, null, 'audio/mpeg')
   }
 }).on('complete', function(data) {
@@ -220,7 +220,7 @@ node test/all.js
 or
 
 ```bash
-nodeunit test/restler.js
+nodeunit test/restless.js
 ```
 
 TODO

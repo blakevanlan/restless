@@ -1,1 +1,1 @@
-module.exports = require('./lib/restler');
+module.exports = require('./lib/restless');

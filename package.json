@@ -1,11 +1,14 @@
 {
-    "name": "restler",
+    "name": "restless",
     "version": "2.0.1",
-    "description": "An HTTP client library for node.js",
-    "contributors": [{ "name": "Dan Webb", "email": "dan@danwebb.net" }],
-    "homepage": "https://github.com/danwrong/restler",
+    "description": "REST client library for node.js (based on restler but with callbacks)",
+    "contributors": [
+        { "name": "Dan Webb", "email": "dan@danwebb.net" },
+        { "name": "Blake VanLandingham", "email": "blakevanlan@gmail.com"}
+    ],
+    "homepage": "https://github.com/blakevanlan/restless",
     "directories" : { "lib" : "./lib" },
-    "main" : "./lib/restler",
+    "main" : "./lib/restless",
     "engines": { "node": ">= 0.6.x" },
     "dependencies": {
     },
