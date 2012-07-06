@@ -79,7 +79,6 @@ module.exports['Basic'] = {
 
   'Should GET': function (test) {
     rest.get(host).on('complete', function(data) {
-      console.log(data);
       test.re(data, /^GET/, 'should be GET');
       test.done();
     });
