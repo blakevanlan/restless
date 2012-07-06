@@ -169,7 +169,7 @@ function loadOptionalLibraries () {
       printWarning("Couldn't load zlib: " + err.message);
    }
    try {
-      iconv = require("iconv");
+      iconv = require("iconv").Iconv;
    } catch (err) {
       printWarning("Couldn't load iconv: " + err.message); 
    }
