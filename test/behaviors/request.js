@@ -55,10 +55,19 @@ require("mocha");
       });
    });
 
-   it("should set content length", function (done) {
+   it("should set content-length", function (done) {
       var context = this;
       method(this.host, { data : { boo: "yah" } }, function (error, body, res) {
          context.request.headers["content-length"].should.equal("7");
+         done();
+      });
+   });
+
+   it("should set JSON multibyte content-length", function (done) {
+      var context = this;
+      var options = { data : JSON.stringify({ greeting: 'こんにちは世界' }) };
+      method(this.host, options, function (error, body, res) {
+         context.request.headers["content-length"].should.equal("36");
          done();
       });
    });
@@ -162,6 +171,14 @@ require("mocha");
          should.exist(context.request.body);
          context.request.body.indexOf('name="a"').should.not.be.below(0);
          context.request.body.indexOf('name="b"').should.not.be.below(0);
+         done();
+      });
+   });
+
+   it("should follow multiple redirects", function (done) {
+      var context = this;
+      method(this.host + "/redirect1", function (error, body, res) {
+         context.request.url.should.equal("/redirect3")
          done();
       });
    });

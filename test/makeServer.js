@@ -102,6 +102,22 @@ var respond = function (req, res) {
             res.end("not aborted");
          }, 100);
          break;
+      case "/redirect1":
+         res.writeHead(301, {
+            "location": "/redirect2"
+         });
+         res.end("redirect");
+         break;
+      case "/redirect2":
+         res.writeHead(301, {
+            "location": "/redirect3"
+         });
+         res.end("redirect");
+         break;
+      case "/redirect3":
+         res.writeHead(200, { 'content-type': 'text/plain' });
+         res.end("redirected");
+         break;
       case "/charset":
          res.writeHead(200, {
             "Content-Type": "text/plain; charset=windows-1251"
