@@ -24,7 +24,7 @@ module.exports = function (done) {
 
 var respond = function (req, res) {
    switch (req.url) {
-      case "/abort":
+      case "/abort-connection":
          req.connection.destroy();
          break;
       case "/error":
@@ -37,11 +37,11 @@ var respond = function (req, res) {
          break;
       case "/xml":
          res.writeHead(200, { "Content-Type": "application/xml" });
-         res.end("<document><ok>true</ok></document>");
+         res.end("<document><boo>yah</boo></document>");
          break;
       case "/yaml":
          res.writeHead(200, { "Content-Type": "application/yaml" });
-         res.end("ok: true");
+         res.end("boo: yah");
          break;
       case "/gzip":
          res.writeHead(200, { "content-encoding": "gzip" });
@@ -80,6 +80,10 @@ var respond = function (req, res) {
          });
          res.end(JSON.stringify([6,6,6]));
          break;
+      case "/delay":
+         setTimeout(function() {
+            res.end("Hey dudes.");
+         }, 100);
       case "/mal-json":
          res.writeHead(200, { "Content-Type": "application/json" });
          res.end("Чебурашка");
