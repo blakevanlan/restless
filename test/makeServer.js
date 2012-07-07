@@ -82,8 +82,9 @@ var respond = function (req, res) {
          break;
       case "/delay":
          setTimeout(function() {
-            res.end("Hey dudes.");
+            res.end();
          }, 100);
+         break;
       case "/mal-json":
          res.writeHead(200, { "Content-Type": "application/json" });
          res.end("Чебурашка");
@@ -106,17 +107,17 @@ var respond = function (req, res) {
          res.writeHead(301, {
             "location": "/redirect2"
          });
-         res.end("redirect");
+         res.end();
          break;
       case "/redirect2":
          res.writeHead(301, {
             "location": "/redirect3"
          });
-         res.end("redirect");
+         res.end();
          break;
       case "/redirect3":
          res.writeHead(200, { 'content-type': 'text/plain' });
-         res.end("redirected");
+         res.end();
          break;
       case "/charset":
          res.writeHead(200, {
@@ -125,6 +126,6 @@ var respond = function (req, res) {
          res.end(Buffer("e0e1e2e3e4e5b8e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff", "hex"));
          break;
       default:
-         res.end("Hey dudes.");
+         res.end();
    }
 };

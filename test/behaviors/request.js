@@ -138,7 +138,7 @@ require("mocha");
          }, 10);
        }
 
-      request = method(this.host + "/delay", function() {
+      request = method(this.host + "/delay", function (error, data) {
          if (++counter < 3) {
             command('retry', 'abort');
          } else {
