@@ -96,8 +96,9 @@ module.exports = function (method, zlib, iconv) {
 
    it("should correctly convert charsets", function (done) {
       if (iconv) {
-         method(host + "/charset", function (error, data) {
+         method(this.host + "/charset", function (error, data) {
             data.should.equal('абвгдеёжзийклмнопрстуфхцчшщъыьэюя');
+            done();
          })
       } else {
          printInconclusive("iconv");
