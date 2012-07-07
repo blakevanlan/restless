@@ -122,42 +122,28 @@ Example usage
 
 ```javascript
 var sys = require('util'),
-    rest = require('./restless');
+var rest = require('./restless');
 
-rest.get('http://google.com').on('complete', function(result) {
-  if (result instanceof Error) {
-    sys.puts('Error: ' + result.message);
+rest.get('http://google.com', function(error, data) {
+  if (error instanceof Error) {
+    sys.puts('Error: ' + error.message);
     this.retry(5000); // try again after 5 sec
   } else {
-    sys.puts(result);
+    sys.puts(data);
   }
 });
 
-rest.get('http://twaud.io/api/v1/users/danwrong.json').on('complete', function(data) {
-  sys.puts(data[0].message); // auto convert to object
-});
-
-// same as above but with callback
 rest.get('http://twaud.io/api/v1/users/danwrong.json', function(error, data) {
   sys.puts(data[0].message); // auto convert to object
 });
 
-rest.get('http://twaud.io/api/v1/users/danwrong.xml').on('complete', function(data) {
+rest.get('http://twaud.io/api/v1/users/danwrong.xml', function(error, data) {
   sys.puts(data[0].sounds[0].sound[0].message); // auto convert to object
 });
 
 rest.post('http://user:pass@service.com/action', {
   data: { id: 334 },
-}).on('complete', function(data, response) {
-  if (response.statusCode == 201) {
-    // you can get at the raw response like this...
-  }
-});
-
-// same as above but with callback
-rest.post('http://user:pass@service.com/action', {
-  data: { id: 334 },
-  function(data, response) {
+  function(error, data, response) {
     if (response.statusCode == 201) {
       // you can get at the raw response like this...
     }
@@ -173,7 +159,7 @@ rest.post('https://twaud.io/api/v1/upload.json', {
     'sound[message]': 'hello from restless!',
     'sound[file]': rest.file('doug-e-fresh_the-show.mp3', null, 321567, null, 'audio/mpeg')
   }
-}).on('complete', function(data) {
+}, function(error, data) {
   sys.puts(data.audio_url);
 });
 
@@ -196,7 +182,7 @@ client.update('Tweeting using a Restler service thingy').on('complete', function
 
 // post JSON
 var jsonData = { id: 334 };
-rest.postJson('http://example.com/action', jsonData).on('complete', function(data, response) {
+rest.postJson('http://example.com/action', jsonData, function(error, data, response) {
   // handle response
 });
 
@@ -204,22 +190,8 @@ rest.postJson('http://example.com/action', jsonData).on('complete', function(dat
 
 Running the tests
 -----------------
-install **[nodeunit](https://github.com/caolan/nodeunit)**
-
 ```bash
-npm install nodeunit
-```
-
-then
-
-```bash
-node test/all.js
-```
-
-or
-
-```bash
-nodeunit test/restless.js
+npm test
 ```
 
 TODO
