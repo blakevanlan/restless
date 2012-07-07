@@ -108,7 +108,7 @@ Also you can use `json()` and `postJson()` methods.
 * `parser` A function that will be called on the returned data. Use any of predefined `restless.parsers`. See parsers section below. Defaults to `restless.parsers.auto`.
 * `encoding` The encoding of the request body. Defaults to `"utf8"`.
 * `decoding` The encoding of the response body. For a list of supported values see [Buffers](http://nodejs.org/docs/latest/api/buffers.html#buffers). Additionally accepts `"buffer"` - returns response as `Buffer`. Defaults to `"utf8"`.
-* `headers` A hash of HTTP headers to be sent. Defaults to `{ 'Accept': '*/*', 'User-Agent': 'Restler for node.js' }`.
+* `headers` A hash of HTTP headers to be sent. Defaults to `{ 'Accept': '*/*', 'User-Agent': 'Restless for node.js' }`.
 * `username` Basic auth username. Defaults to empty.
 * `password` Basic auth password. Defaults to empty.
 * `multipart` If set the data passed will be formated as `multipart/form-encoded`. See multipart example below. Defaults to `false`.
@@ -176,7 +176,7 @@ Twitter = rest.service(function(u, p) {
 });
 
 var client = new Twitter('danwrong', 'password');
-client.update('Tweeting using a Restler service thingy').on('complete', function(data) {
+client.update('Tweeting using a Restless service thingy').on('complete', function(data) {
   sys.p(data);
 });
 
