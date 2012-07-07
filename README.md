@@ -10,7 +10,6 @@ The difference between Restless and Restler is that Restless uses callbacks inst
 
 **Note**
 Currently Restless can be used with either pattern however soon the emitter will be removed. It is recommended that anyone who wishes to utilize the emitter pattern should use [Restler](https://github.com/danwrong/restler) instead.
-emitter patt
 
 Features
 --------
