@@ -6,10 +6,7 @@ Based on [Restler](https://github.com/danwrong/restler) by [@danwrong](https://g
 
 An HTTP client library for node.js (0.6.x and up).  Hides most of the complexity of creating and using http.Client.
 
-The difference between Restless and Restler is that Restless uses callbacks instead of the emitter pattern.
-
-**Note**
-Currently Restless can be used with either pattern however soon the emitter will be removed. It is recommended that anyone who wishes to utilize the emitter pattern should use [Restler](https://github.com/danwrong/restler) instead.
+The difference between Restless and Restler is Restless uses callbacks instead of the emitter pattern.
 
 Features
 --------
@@ -27,27 +24,14 @@ Features
 * Transparently handle content-encoded responses (gzip, deflate) (requires node 0.6+)
 * Transparently handle different content charsets via [iconv](https://github.com/bnoordhuis/node-iconv) (if available)
 
-
 API
 ---
 
 ### request(url, [options])
 
-Basic method to make a request of any type. The function returns a RestRequest object that emits events:
-
-#### events
-
-* `complete: function(result, response)` - emitted when the request has finished whether it was successful or not. Gets passed the response result and the response object as arguments. If some error has occurred, `result` is always instance of `Error`, otherwise it contains response data.
-* `success: function(data, response)` - emitted when the request was successful. Gets passed the response data and the response object as arguments.
-* `fail: function(data, response)` - emitted when the request was successful, but 4xx status code returned. Gets passed the response data and the response object as arguments.
-* `error: function(err, response)` - emitted when some errors have occurred (eg. connection aborted, parse, encoding, decoding failed or some other unhandled errors). Gets passed the `Error` object and the response object (when available) as arguments.
-* `abort: function()` - emitted when `request.abort()` is called.
-* `2XX`, `3XX`, `4XX`, `5XX: function(data, response)` - emitted for all requests with response codes in the range (eg. `2XX` emitted for 200, 201, 203).
-* <code><i>actual response code</i>: function(data, response)</code> - emitted for every single response code (eg. 404, 201, etc).
-
 #### members
 
-* `abort([error])` Cancels request. `abort` event is emitted. `request.aborted` is set to `true`. If non-falsy `error` is passed, then `error` will be additionaly emitted (with `error` passed as a param and `error.type` is set to `"abort"`). Otherwise only `complete` event will raise.
+* `abort([error])` Cancels request. `request.aborted` is set to `true`. If non-falsy `error` is passed, then `error` will be passed to the callback (with `error.type` set to `"abort"`).
 * `retry([timeout])` Re-sends request after `timeout` ms. Pending request is aborted.
 * `aborted` Determines if request was aborted.
 
@@ -80,13 +64,13 @@ Send json `data` via specified method, defaults to GET.
 Send json `data` via POST method.
 
 ### Callback
-As an alternative to the emitter pattern, a callback function can be supplied.
+
 The parameters are as follows: `function(error, body, response)`. If no error occurred then `error` will be null.
 
 ### Parsers
 
 You can give any of these to the parsers option to specify how the response data is deserialized.
-In case of malformed content, parsers emit `error` event. Original data returned by server is stored in `response.raw`.
+In case of malformed content, an `error` object will be passed to the callback. Original data returned by server is stored in `response.raw`.
 
 #### parsers.auto
 
