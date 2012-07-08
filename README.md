@@ -35,31 +35,31 @@ API
 * `retry([timeout])` Re-sends request after `timeout` ms. Pending request is aborted.
 * `aborted` Determines if request was aborted.
 
-### get(url, [options], [callback])
+### get(url [, options] [, callback])
 
 Create a GET request.
 
-### post(url, [options], [callback])
+### post(url [, options] [, callback])
 
 Create a POST request.
 
-### put(url, [options], [callback])
+### put(url [, options] [, callback])
 
 Create a PUT request.
 
-### del(url, [options], [callback])
+### del(url [, options] [, callback])
 
 Create a DELETE request.
 
-### head(url, [options], [callback])
+### head(url [, options] [, callback])
 
 Create a HEAD request.
 
-### json(url, data, [options], [method], [callback])
+### json(url, data [, options] [, method] [, callback])
 
 Send json `data` via specified method, defaults to GET.
 
-### postJson(url, data, [options], [callback])
+### postJson(url, data [, options] [, callback])
 
 Send json `data` via POST method.
 
