@@ -1,66 +1,67 @@
 var should = require("should");
 require("mocha");
 
-module.exports = function (method, zlib, iconv) {
+module.exports = function (method, xml2js, yaml, iconv) {
    it("should parse JSON", function (done) {
       method(this.host + "/json", function (error, body, res) {
          body["boo"].should.equal("yah");
          done();
       });
    });
+
+   shouldhandleMalformedResponse(method, "json");
    
-   it("should parse XML", function (done) {
-      method(this.host + "/xml", function (error, body, res) {
-         body["boo"].should.equal("yah");
+   if (xml2js) {
+      it("should parse XML", function (done) {
+         method(this.host + "/xml", function (error, body, res) {
+            body["boo"].should.equal("yah");
+            done();
+         });
+      });
+
+      shouldhandleMalformedResponse(method, "xml");
+   } else {
+      it("should parse XML: install xml2js to verify test");
+      it("should correctly handle malformed XML: install xml2js to verify test");
+   }
+   
+   if (yaml) {
+      it("should parse YAML", function (done) {
+         method(this.host + "/yaml", function (error, body, res) {
+            body["boo"].should.equal("yah");
+            done();
+         });
+      });
+
+      shouldhandleMalformedResponse(method, "yaml");
+   } else {
+       it("should parse YAML: install yaml to verify test");
+       it("should correctly handle malformed YAML: install yaml to verify test");
+   }
+
+   it("should gunzip", function (done) {
+      method(this.host + "/gzip", function (error, body, res) {
+         body.should.match(/^(compressed data){10}$/);
          done();
       });
    });
 
-   it("should parse YAML", function (done) {
-      method(this.host + "/yaml", function (error, body, res) {
-         body["boo"].should.equal("yah");
+   it("should decode and parse", function (done) {
+      method(this.host + "/truth", function (error, body, res) {
+         with (body) {
+            var result = what + (is + the + answer + to + life + the + universe + and + everything).length;
+         }
+         result.should.equal(42);
          done();
       });
-   });
-
-   it("should gunzip if zlib is present", function (done) {
-      if (zlib) {
-         method(this.host + "/gzip", function (error, body, res) {
-            body.should.match(/^(compressed data){10}$/);
-            done();
-         });
-      } else {
-         printInconclusive("zlib");
-         done();
-      }
-   });
-
-   it("should inflate if zlib is present", function (done) {
-      if (zlib) {
-         method(this.host + "/deflate", function (error, body, res) {
-            body.should.match(/^(compressed data){10}$/);
-            done();
-         });
-      } else {
-         printInconclusive("zlib");
-         done();
-      }
-   }); 
-
-   it("should decode and parse if zlib is present", function (done) {
-      if (zlib) {
-         method(this.host + "/truth", function (error, body, res) {
-            with (body) {
-               var result = what + (is + the + answer + to + life + the + universe + and + everything).length;
-            }
-            result.should.equal(42);
-            done();
-         });
-      } else {
-         printInconclusive("zlib");
-         done();
-      }
    });   
+
+   it("should inflate", function (done) {
+      method(this.host + "/deflate", function (error, body, res) {
+         body.should.match(/^(compressed data){10}$/);
+         done();
+      });
+   });
 
    it("should return body as buffer", function (done) {
       method(this.host + "/binary", { decoding: "buffer" }, function (error, body, res) {
@@ -90,21 +91,16 @@ module.exports = function (method, zlib, iconv) {
       });
    }); 
 
-   shouldhandleMalformedResponse(method, "json");
-   shouldhandleMalformedResponse(method, "xml");
-   shouldhandleMalformedResponse(method, "yaml");
-
-   it("should correctly convert charsets", function (done) {
-      if (iconv) {
+   if (iconv) {
+      it("should correctly convert charsets", function (done) {
          method(this.host + "/charset", function (error, data) {
             data.should.equal('абвгдеёжзийклмнопрстуфхцчшщъыьэюя');
             done();
-         })
-      } else {
-         printInconclusive("iconv");
-         done();
-      }
-   });  
+         });
+      });  
+   } else {
+       it("should correctly convert charsets: install iconv to verify test");
+   }
 };
 
 shouldhandleMalformedResponse = function (method, type) {
@@ -115,10 +111,4 @@ shouldhandleMalformedResponse = function (method, type) {
          done();
       });
    }); 
-}
-
-printInconclusive = function (libRequired) {
-   var yellow = "\u001b[33m";
-   var reset = "\u001b[0m";
-   console.log(yellow + "Inconclusive: install " + libRequired + " to test" + reset);
 }
