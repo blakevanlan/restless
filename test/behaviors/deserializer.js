@@ -1,7 +1,11 @@
 var should = require("should");
 require("mocha");
 
-module.exports = function (method, xml2js, yaml, iconv) {
+var yellow = "\u001b[33m";
+var cyan = "\u001b[36m"
+var reset = "\u001b[0m";
+
+module.exports = function (method, xml2js, yaml, zlib, iconv) {
    it("should parse JSON", function (done) {
       method(this.host + "/json", function (error, body, res) {
          body["boo"].should.equal("yah");
@@ -21,8 +25,8 @@ module.exports = function (method, xml2js, yaml, iconv) {
 
       shouldhandleMalformedResponse(method, "xml");
    } else {
-      it("should parse XML: install xml2js to verify test");
-      it("should correctly handle malformed XML: install xml2js to verify test");
+      it("should parse XML: install " + reset + yellow + "xml2js" + reset + cyan + " to verify test");
+      it("should correctly handle malformed XML: install " + reset + yellow + "xml2js" + reset + cyan + " to verify test");
    }
    
    if (yaml) {
@@ -35,33 +39,39 @@ module.exports = function (method, xml2js, yaml, iconv) {
 
       shouldhandleMalformedResponse(method, "yaml");
    } else {
-       it("should parse YAML: install yaml to verify test");
-       it("should correctly handle malformed YAML: install yaml to verify test");
+       it("should parse YAML: install " + reset + yellow + " yaml " + reset + cyan + "to verify test");
+       it("should correctly handle malformed YAML: install " + reset + yellow + " yaml " + reset + cyan + "to verify test");
    }
 
-   it("should gunzip", function (done) {
-      method(this.host + "/gzip", function (error, body, res) {
-         body.should.match(/^(compressed data){10}$/);
-         done();
+   if (zlib) {
+      it("should gunzip", function (done) {
+         method(this.host + "/gzip", function (error, body, res) {
+            body.should.match(/^(compressed data){10}$/);
+            done();
+         });
       });
-   });
 
-   it("should decode and parse", function (done) {
-      method(this.host + "/truth", function (error, body, res) {
-         with (body) {
-            var result = what + (is + the + answer + to + life + the + universe + and + everything).length;
-         }
-         result.should.equal(42);
-         done();
-      });
-   });   
+      it("should decode and parse", function (done) {
+         method(this.host + "/truth", function (error, body, res) {
+            with (body) {
+               var result = what + (is + the + answer + to + life + the + universe + and + everything).length;
+            }
+            result.should.equal(42);
+            done();
+         });
+      });   
 
-   it("should inflate", function (done) {
-      method(this.host + "/deflate", function (error, body, res) {
-         body.should.match(/^(compressed data){10}$/);
-         done();
+      it("should inflate", function (done) {
+         method(this.host + "/deflate", function (error, body, res) {
+            body.should.match(/^(compressed data){10}$/);
+            done();
+         });
       });
-   });
+   } else {
+      it("should gunzip: install " + reset + yellow + " zlib " + reset + cyan + "to verify test");
+      it("should decode and parse: install " + reset + yellow + " zlib " + reset + cyan + "to verify test");
+      it("should inflate: install " + reset + yellow + " zlib " + reset + cyan + "to verify test");
+   }
 
    it("should return body as buffer", function (done) {
       method(this.host + "/binary", { decoding: "buffer" }, function (error, body, res) {
@@ -99,7 +109,7 @@ module.exports = function (method, xml2js, yaml, iconv) {
          });
       });  
    } else {
-       it("should correctly convert charsets: install iconv to verify test");
+       it("should correctly convert charsets: install " + reset + yellow + " iconv " + reset + cyan + "to verify test");
    }
 };
 

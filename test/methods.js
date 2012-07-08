@@ -9,8 +9,7 @@ var behavesLike = {
    aCustomMimiHandler: require("./behaviors/customMimiHandler")
 }
 
-// Include zlib and iconv if present
-var xml2js, yaml, iconv;
+var xml2js, yaml, zlib, iconv;
 loadOptionalLibraries();
 
 describe("Restless", function () {
@@ -18,7 +17,7 @@ describe("Restless", function () {
 
    describe("#get()", function () {
       behavesLike.aRequest(rest.get);
-      behavesLike.aDeserializer(rest.get, xml2js, yaml, iconv);
+      behavesLike.aDeserializer(rest.get, xml2js, yaml, zlib, iconv);
       behavesLike.aCustomMimiHandler(rest, rest.get);
 
       it("should make a GET request", function (done) {
@@ -32,7 +31,7 @@ describe("Restless", function () {
 
    describe("#post()", function () {
       behavesLike.aRequest(rest.post);
-      behavesLike.aDeserializer(rest.post, xml2js, yaml, iconv);
+      behavesLike.aDeserializer(rest.post, xml2js, yaml, zlib, iconv);
       behavesLike.aCustomMimiHandler(rest, rest.post);
 
       it("should make a POST request", function (done) {
@@ -46,7 +45,7 @@ describe("Restless", function () {
 
    describe("#patch()", function () {
       behavesLike.aRequest(rest.patch);
-      behavesLike.aDeserializer(rest.patch, xml2js, yaml, iconv);
+      behavesLike.aDeserializer(rest.patch, xml2js, yaml, zlib, iconv);
       behavesLike.aCustomMimiHandler(rest, rest.patch);
 
       it("should make a PATCH request", function (done) {
@@ -60,7 +59,7 @@ describe("Restless", function () {
 
    describe("#del()", function () {
       behavesLike.aRequest(rest.del);
-      behavesLike.aDeserializer(rest.del, xml2js, yaml, iconv);
+      behavesLike.aDeserializer(rest.del, xml2js, yaml, zlib, iconv);
       behavesLike.aCustomMimiHandler(rest, rest.del);
 
       it("should make a DELETE request", function (done) {
@@ -74,7 +73,7 @@ describe("Restless", function () {
 
    describe("#put()", function () {
       behavesLike.aRequest(rest.put);
-      behavesLike.aDeserializer(rest.put, xml2js, yaml, iconv);
+      behavesLike.aDeserializer(rest.put, xml2js, yaml, zlib, iconv);
       behavesLike.aCustomMimiHandler(rest, rest.put);
 
       it("should make a PUT request", function (done) {
@@ -172,6 +171,11 @@ function loadOptionalLibraries () {
       yaml = require("yaml"); 
    } catch (err) { 
       printWarning("Couldn't load yaml: " + err.message);
+   }
+   try {
+      zlib = require("zlib");
+   } catch (err) {
+      printWarning("Couldn't load zlib: " + err.message); 
    }
    try {
       iconv = require("iconv").Iconv;
