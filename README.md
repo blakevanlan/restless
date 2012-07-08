@@ -1,5 +1,7 @@
 Restless
 =======
+[![Build Status](https://secure.travis-ci.org/blakevanlan/restless.png?branch=master)](http://travis-ci.org/blakevanlan/restless)
+
 
 Based on [Restler](https://github.com/danwrong/restler) by [@danwrong](https://github.com/danwrong/)
 (C) Dan Webb (dan@danwebb.net/@danwrong) 2011, Licensed under the MIT-LICENSE
