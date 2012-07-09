@@ -39,8 +39,8 @@ module.exports = function (method, xml2js, yaml, zlib, iconv) {
 
       shouldhandleMalformedResponse(method, "yaml");
    } else {
-       it("should parse YAML: install " + reset + yellow + " yaml " + reset + cyan + "to verify test");
-       it("should correctly handle malformed YAML: install " + reset + yellow + " yaml " + reset + cyan + "to verify test");
+      it("should parse YAML: install " + reset + yellow + " yaml " + reset + cyan + "to verify test");
+      it("should correctly handle malformed YAML: install " + reset + yellow + " yaml " + reset + cyan + "to verify test");
    }
 
    if (zlib) {
