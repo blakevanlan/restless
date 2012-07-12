@@ -29,7 +29,7 @@ Features
 API
 ---
 
-### request(url [, options])
+### request(url [, options] [, callback])
 
 #### members
 
