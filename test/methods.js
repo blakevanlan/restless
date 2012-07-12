@@ -1,7 +1,6 @@
 require("mocha");
 var should = require("should");
 var rest = require("../lib/restless");
-var http = require("http");
 var makeServer = require("./makeServer");
 var behavesLike = {
    aRequest: require("./behaviors/request"),
