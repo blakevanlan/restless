@@ -8,7 +8,7 @@ var reset = "\u001b[0m";
 module.exports = function (method, xml2js, yaml, zlib, iconv) {
    it("should parse JSON", function (done) {
       method(this.host + "/json", function (error, body, res) {
-         body["boo"].should.equal("yah");
+         body[0]["boo"].should.equal("yah");
          done();
       });
    });

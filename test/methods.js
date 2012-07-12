@@ -96,69 +96,6 @@ describe("Restless", function () {
          });
       });
    });
-
-   describe("#json()", function () {
-      it("should post and parse JSON with only data and callback specified", function (done) {
-         var obj = { secret : "very secret string" };
-         rest.json(this.host + "/push-json", obj, function (error, data) {
-            data.secret.should.equal(obj.secret);
-            done();
-         });
-      });
-
-      it("should post and parse JSON with only data and method specified", function (done) {
-         var obj = { secret : "very secret string" };
-         rest.json(this.host + "/push-json", obj, "PUT", function (error, data) {
-            data.secret.should.equal(obj.secret);
-            done();
-         });
-      });
-
-      it("should post and parse JSON without method specified", function (done) {
-         var obj = { secret : "very secret string" };
-         var options = { username: 'danwrong', password: 'flange' };
-         rest.json(this.host + "/push-json", obj, options, function (error, data) {
-            data.secret.should.equal(obj.secret);
-            done();
-         });
-      });
-
-      it("should post and parse JSON with callback as option", function (done) {
-         var obj = { secret : "very secret string" };
-         rest.json(this.host + "/push-json", obj, { callback: function (error, data) {
-            data.secret.should.equal(obj.secret);
-            done();
-         }});
-      }); 
-
-      it("should post and parse JSON with all parameters specified", function (done) {
-         var obj = { secret : "very secret string" };
-         var options = { username: 'danwrong', password: 'flange' };
-         rest.json(this.host + "/push-json", obj, options, "PUT", function (error, data) {
-            data.secret.should.equal(obj.secret);
-            done();
-         });
-      });
-   });
-
-   describe("#postJson()", function () {
-      it("should post and parse JSON with only data and callback specified", function (done) {
-         var obj = { secret : "very secret string" };
-         rest.json(this.host + "/push-json", obj, function (error, data) {
-            data.secret.should.equal(obj.secret);
-            done();
-         });
-      });
-
-      it("should post and parse JSON with all parameters specified", function (done) {
-         var obj = { secret : "very secret string" };
-         var options = { username: 'danwrong', password: 'flange' };
-         rest.json(this.host + "/push-json", obj, options, function (error, data) {
-            data.secret.should.equal(obj.secret);
-            done();
-         });
-      });
-   });
 });
 
 function loadOptionalLibraries () {

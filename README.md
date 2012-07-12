@@ -29,7 +29,7 @@ Features
 API
 ---
 
-### request(url [, options] [, callback])
+### request(method, url [, options] [, callback])
 
 #### members
 
@@ -57,14 +57,6 @@ Create a DELETE request.
 
 Create a HEAD request.
 
-### json(url, data [, options] [, method] [, callback])
-
-Send json `data` via specified method, defaults to GET.
-
-### postJson(url, data [, options] [, callback])
-
-Send json `data` via POST method.
-
 ### Callback
 
 The parameters are as follows: `function(error, body, response)`. If no error occurred then `error` will be null.
@@ -90,7 +82,7 @@ All of these attempt to turn the response into a JavaScript object. In order to 
 * `data` The data to be added to the body of the request. Can be a string or any object.
 Note that if you want your request body to be JSON with the `Content-Type: application/json`, you need to
 `JSON.stringify` your object first. Otherwise, it will be sent as `application/x-www-form-urlencoded` and encoded accordingly.
-Also you can use `json()` and `postJson()` methods.
+
 * `parser` A function that will be called on the returned data. Use any of predefined `restless.parsers`. See parsers section below. Defaults to `restless.parsers.auto`.
 * `encoding` The encoding of the request body. Defaults to `"utf8"`.
 * `decoding` The encoding of the response body. For a list of supported values see [Buffers](http://nodejs.org/docs/latest/api/buffers.html#buffers). Additionally accepts `"buffer"` - returns response as `Buffer`. Defaults to `"utf8"`.
@@ -170,13 +162,6 @@ var client = new Twitter('danwrong', 'password');
 client.update('Tweeting using a Restless service thingy').on('complete', function(data) {
   sys.p(data);
 });
-
-// post JSON
-var jsonData = { id: 334 };
-rest.postJson('http://example.com/action', jsonData, function(error, data, response) {
-  // handle response
-});
-
 ```
 
 Running the tests

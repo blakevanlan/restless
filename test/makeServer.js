@@ -33,7 +33,7 @@ var respond = function (req, res) {
          break;
       case "/json":
          res.writeHead(200, { "Content-Type": "application/json" });
-         res.end('{ "boo": "yah" }');
+         res.end('[{ "boo": "yah" }]');
          break;
       case "/xml":
          res.writeHead(200, { "Content-Type": "application/xml" });
@@ -61,18 +61,6 @@ var respond = function (req, res) {
       case "/binary":
          res.writeHead(200);
          res.end(Buffer([9, 30, 64, 135, 200]));
-         break;
-      case "/push-json":
-         var echo = "";
-         req.addListener("data", function(chunk) {
-            echo += chunk.toString("binary");
-         });
-         req.addListener("end", function() {
-            res.writeHead(200, {
-               "Content-Type": "application/json"
-            });
-            res.end(JSON.stringify(JSON.parse(echo)));
-         });
          break;
       case "/custom-mime":
          res.writeHead(200, {
