@@ -102,6 +102,11 @@ Also you can use `json()` and `postJson()` methods.
 * `followRedirects` If set will recursively follow redirects. Defaults to `true`.
 * `callback` A callback function can be supplied in the options. This is an alternative to passing the callback function as the last parameter to any of the above methods. Note: This is the only way to use a callback function if you are using the `request` function direct.
 
+Installation
+-------------
+```bash
+npm install restless
+```
 
 Example usage
 -------------
