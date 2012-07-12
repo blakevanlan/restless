@@ -109,7 +109,7 @@ module.exports = function (method, xml2js, yaml, zlib, iconv) {
          });
       });  
    } else {
-       it("should correctly convert charsets: install " + reset + yellow + " iconv " + reset + cyan + "to verify test");
+      it("should correctly convert charsets: install " + reset + yellow + " iconv " + reset + cyan + "to verify test");
    }
 };
 
