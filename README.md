@@ -80,9 +80,7 @@ All of these attempt to turn the response into a JavaScript object. In order to 
 * `method` Request method, can be get, post, put, del. Defaults to `"get"`.
 * `query` Query string variables as a javascript object, will override the querystring in the URL. Defaults to empty.
 * `data` The data to be added to the body of the request. Can be a string or any object.
-Note that if you want your request body to be JSON with the `Content-Type: application/json`, you need to
-`JSON.stringify` your object first. Otherwise, it will be sent as `application/x-www-form-urlencoded` and encoded accordingly.
-
+Note that if the data is an object it will, by default, properly be JSON encoded and the header `'Content-Type': 'application/json'` will be added. If you want to url encode the data include the header, `'Content-Type': 'application/x-www-form-urlencoded'`, and the data object will be encoded accordingly.
 * `parser` A function that will be called on the returned data. Use any of predefined `restless.parsers`. See parsers section below. Defaults to `restless.parsers.auto`.
 * `encoding` The encoding of the request body. Defaults to `"utf8"`.
 * `decoding` The encoding of the response body. For a list of supported values see [Buffers](http://nodejs.org/docs/latest/api/buffers.html#buffers). Additionally accepts `"buffer"` - returns response as `Buffer`. Defaults to `"utf8"`.

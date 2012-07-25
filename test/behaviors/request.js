@@ -55,9 +55,21 @@ require("mocha");
       });
    });
 
+   it("should set content-type to JSON if data is an object", function (done) {
+      var context = this;
+      method(this.host, { data: { boo: "yah" } }, function (error, body, res) {
+         context.request.headers["content-type"].should.equal("application/json");
+         done();
+      });
+   });
+
    it("should set content-length", function (done) {
       var context = this;
-      method(this.host, { data : { boo: "yah" } }, function (error, body, res) {
+      var options = { 
+         data: { boo: "yah" },
+         headers: { "Content-Type": "application/x-www-form-urlencoded"}
+      };
+      method(this.host, options, function (error, body, res) {
          context.request.headers["content-length"].should.equal("7");
          done();
       });
@@ -65,16 +77,32 @@ require("mocha");
 
    it("should set JSON multibyte content-length", function (done) {
       var context = this;
-      var options = { data : JSON.stringify({ greeting: 'こんにちは世界' }) };
+      var options = { 
+         data : JSON.stringify({ greeting: 'こんにちは世界' }),
+         headers: { "Content-Type": "application/x-www-form-urlencoded"}
+      };
       method(this.host, options, function (error, body, res) {
          context.request.headers["content-length"].should.equal("36");
          done();
       });
    });
 
-   it("should serialize body data to url encoded", function (done) {
+   it("should serialize body data to json", function (done) {
       var context = this;
       method(this.host, { data : { boo: "yah" } }, function (error, body, res) {
+         should.exist(context.request.body);
+         context.request.body.should.equal('{"boo":"yah"}');
+         done();
+      });
+   });
+
+   it("should serialize body data to url encoded", function (done) {
+      var context = this;
+      var options = { 
+         data: { boo: "yah" },
+         headers: { "Content-Type": "application/x-www-form-urlencoded"}
+      };
+      method(this.host, options, function (error, body, res) {
          should.exist(context.request.body);
          context.request.body.should.equal("boo=yah");
          done();
