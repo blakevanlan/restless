@@ -90,7 +90,7 @@ Note that if the data is an object it will, by default, properly be JSON encoded
 * `multipart` If set the data passed will be formated as `multipart/form-encoded`. See multipart example below. Defaults to `false`.
 * `client` A http.Client instance if you want to reuse or implement some kind of connection pooling. Defaults to empty.
 * `followRedirects` If set will recursively follow redirects. Defaults to `true`.
-* `callback` A callback function can be supplied in the options. This is an alternative to passing the callback function as the last parameter to any of the above methods. Note: This is the only way to use a callback function if you are using the `request` function direct.
+* `callback` A callback function can be supplied in the options. This is an alternative to passing the callback function as the last parameter to any of the above methods.
 
 Installation
 -------------
