@@ -96,6 +96,15 @@ require("mocha");
       });
    });
 
+   it("should alias option.body as option.data", function (done) {
+      var context = this;
+      method(this.host, { body : { boo: "yah" } }, function (error, body, res) {
+         should.exist(context.request.body);
+         context.request.body.should.equal('{"boo":"yah"}');
+         done();
+      });
+   });
+
    it("should serialize body data to url encoded", function (done) {
       var context = this;
       var options = { 
