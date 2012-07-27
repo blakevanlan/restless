@@ -59,7 +59,7 @@ Create a HEAD request.
 
 ### Callback
 
-The parameters are as follows: `function(error, body, response)`. If no error occurred then `error` will be null.
+The parameters are as follows: `function (error, body, response)`. If the response has a status code of 400 or above the error parameter will contain the status code as an integer. Any other errors will be an instance of `Error` and are thrown by the http library.
 
 ### Parsers
 
@@ -105,7 +105,7 @@ Example usage
 var sys = require('util'),
 var rest = require('./restless');
 
-rest.get('http://google.com', function(error, data) {
+rest.get('http://google.com', function (error, data) {
   if (error instanceof Error) {
     sys.puts('Error: ' + error.message);
     this.retry(5000); // try again after 5 sec
@@ -114,17 +114,23 @@ rest.get('http://google.com', function(error, data) {
   }
 });
 
-rest.get('http://twaud.io/api/v1/users/danwrong.json', function(error, data) {
+rest.get('http://resourcedoesntexist.com/', function (error, data) {
+  if (typeof error == "number") {
+    // you can check for a 400 or above like this
+  }
+});
+
+rest.get('http://twaud.io/api/v1/users/danwrong.json', function (error, data) {
   sys.puts(data[0].message); // auto convert to object
 });
 
-rest.get('http://twaud.io/api/v1/users/danwrong.xml', function(error, data) {
+rest.get('http://twaud.io/api/v1/users/danwrong.xml', function (error, data) {
   sys.puts(data[0].sounds[0].sound[0].message); // auto convert to object
 });
 
 rest.post('http://user:pass@service.com/action', {
   data: { id: 334 },
-  function(error, data, response) {
+  function (error, data, response) {
     if (response.statusCode == 201) {
       // you can get at the raw response like this...
     }
@@ -140,24 +146,24 @@ rest.post('https://twaud.io/api/v1/upload.json', {
     'sound[message]': 'hello from restless!',
     'sound[file]': rest.file('doug-e-fresh_the-show.mp3', null, 321567, null, 'audio/mpeg')
   }
-}, function(error, data) {
+}, function (error, data) {
   sys.puts(data.audio_url);
 });
 
 // create a service constructor for very easy API wrappers a la HTTParty...
-Twitter = rest.service(function(u, p) {
+Twitter = rest.service(function (u, p) {
   this.defaults.username = u;
   this.defaults.password = p;
 }, {
   baseURL: 'http://twitter.com'
 }, {
-  update: function(message) {
+  update: function (message) {
     return this.post('/statuses/update.json', { data: { status: message } });
   }
 });
 
 var client = new Twitter('danwrong', 'password');
-client.update('Tweeting using a Restless service thingy').on('complete', function(data) {
+client.update('Tweeting using a Restless service thingy').on('complete', function (data) {
   sys.p(data);
 });
 ```
