@@ -12,14 +12,33 @@ require("mocha");
 
    it("should pass errors as the first parameter to the callback", function (done) {
       method(this.host + "/error", function (error, body, res) {
-         should.exist(error);
+         error.should.be.ok;
+         error.should.equal(500);
+         done();
+      });
+   });
+
+   it("should pass status code as error for code >= 400", function (done) {
+      method(this.host + "/notfound", function (error, body, res) {
+         error.should.equal(404);
          done();
       });
    });
 
    it("should pass body as the second parameter to the callback", function (done) {
-      method(this.host, function (error, body) {
-         should.exist(body);
+      method(this.host, function (error, body, res) {
+         if (res.req.method && res.req.method.toUpperCase() != "HEAD"){
+            body.should.be.ok;
+         }
+         done();
+      });
+   });
+
+   it("should pass body as the second parameter to the callback on error", function (done) {
+      method(this.host + "/notfound", function (error, body, res) {
+         if (res.req.method && res.req.method.toUpperCase() != "HEAD"){
+            body.should.equal("Resource not found.");
+         }
          done();
       });
    });

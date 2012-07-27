@@ -22,7 +22,7 @@ describe("Restless", function () {
 
       it("should make a GET request", function (done) {
          var context = this;
-         rest.get(this.host, function(error, data, res) {
+         rest.get(this.host, function (error, data, res) {
             context.request.method.should.equal("GET");
             done();
          });
@@ -36,7 +36,7 @@ describe("Restless", function () {
 
       it("should make a POST request", function (done) {
          var context = this;
-         rest.post(this.host, function(error, data, res) {
+         rest.post(this.host, function (error, data, res) {
             context.request.method.should.equal("POST");
             done();
          });
@@ -50,7 +50,7 @@ describe("Restless", function () {
 
       it("should make a PATCH request", function (done) {
          var context = this;
-         rest.patch(this.host, function(error, data, res) {
+         rest.patch(this.host, function (error, data, res) {
             context.request.method.should.equal("PATCH");
             done();
          });
@@ -64,7 +64,7 @@ describe("Restless", function () {
 
       it("should make a DELETE request", function (done) {
          var context = this;
-         rest.del(this.host, function(error, data, res) {
+         rest.del(this.host, function (error, data, res) {
             context.request.method.should.equal("DELETE");
             done();
          });
@@ -78,7 +78,7 @@ describe("Restless", function () {
 
       it("should make a PUT request", function (done) {
          var context = this;
-         rest.put(this.host, function(error, data, res) {
+         rest.put(this.host, function (error, data, res) {
             context.request.method.should.equal("PUT");
             done();
          });
@@ -90,7 +90,7 @@ describe("Restless", function () {
 
       it("should make a HEAD request", function (done) {
          var context = this;
-         rest.head(this.host, function(error, data, res) {
+         rest.head(this.host, function (error, data, res) {
             context.request.method.should.equal("HEAD");
             done();
          });

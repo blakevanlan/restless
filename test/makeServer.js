@@ -31,6 +31,9 @@ var respond = function (req, res) {
          res.writeHead(500);
          res.end();
          break;
+      case "/notfound":
+         res.writeHead(404);
+         res.end("Resource not found.")
       case "/json":
          res.writeHead(200, { "Content-Type": "application/json" });
          res.end('[{ "boo": "yah" }]');
@@ -114,6 +117,9 @@ var respond = function (req, res) {
          res.end(Buffer("e0e1e2e3e4e5b8e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff", "hex"));
          break;
       default:
-         res.end();
+         if (req.method.toUpperCase() != "HEAD")
+            res.end("Hey there!");
+         else
+            res.end();
    }
 };
