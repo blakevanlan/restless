@@ -165,23 +165,6 @@ rest.post('https://twaud.io/api/v1/upload.json', {
 }, function (error, data) {
   sys.puts(data.audio_url);
 });
-
-// create a service constructor for very easy API wrappers a la HTTParty...
-Twitter = rest.service(function (u, p) {
-  this.defaults.username = u;
-  this.defaults.password = p;
-}, {
-  baseURL: 'http://twitter.com'
-}, {
-  update: function (message) {
-    return this.post('/statuses/update.json', { data: { status: message } });
-  }
-});
-
-var client = new Twitter('danwrong', 'password');
-client.update('Tweeting using a Restless service thingy').on('complete', function (data) {
-  sys.p(data);
-});
 ```
 
 Running the tests
