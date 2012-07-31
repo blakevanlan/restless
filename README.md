@@ -92,6 +92,22 @@ Note that if the data is an object it will, by default, properly be JSON encoded
 * `followRedirects` If set will recursively follow redirects. Defaults to `true`.
 * `callback` A callback function can be supplied in the options. This is an alternative to passing the callback function as the last parameter to any of the above methods.
 
+## Restless + Proxy 
+Restless can be setup to use a proxy, such as Fiddler, to allow for easier debugging. Here is example for Fiddler:
+```javascript
+var rest = require('restless')({ proxy: "http://127.0.0.1:8888" });
+```
+*or*
+```javascript
+var rest = require('restless')({ 
+  proxy: {
+    host: "127.0.0.1",
+    port: "8888" 
+  }
+});
+```
+Note: Restless runs about 100x slower with Fiddler as a proxy.
+
 Installation
 -------------
 ```bash
@@ -103,7 +119,7 @@ Example usage
 
 ```javascript
 var sys = require('util'),
-var rest = require('./restless');
+var rest = require('restless');
 
 rest.get('http://google.com', function (error, data) {
   if (error instanceof Error) {

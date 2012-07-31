@@ -1,6 +1,6 @@
 {
    "name": "restless",
-   "version": "0.0.9",
+   "version": "0.0.10",
    "description": "REST client library for node.js (based on restler but with callbacks)",
    "contributors": [
       { "name": "Dan Webb", "email": "dan@danwebb.net" },
